@@ -7,7 +7,10 @@ function OverheadWorld(params) {
   this.tileMap = params.tileMap
 
   // store the bomb map to track if a tile is bombed
-  this.bombMap = generateBombMap(params.tileMap)
+  this.bombMap = generateZeros(params.tileMap)
+
+  // use an array to store the rows of the characters & bubbles
+  this.rows = Array(this.tileMap.length).fill(0)
 
   // store the folder in which all of our tiles are stored
   this.tileFolder = params.tileFolder + "/" + params.map
@@ -47,17 +50,19 @@ function OverheadWorld(params) {
   // the height of the tile is 1.4 times its width 
   this.displayBlocks = function() {
     for (var row = 0; row < this.tileMap.length; row += 1) {
-      for (var col = 0; col < this.tileMap[row].length; col += 1) {
-        if (this.tileMap[row][col] != 0){
-          image(this.tileLibrary[ this.tileMap[row][col] ], col*this.tileSize, (row - 0.4)*this.tileSize, this.tileSize, this.tileSize*1.4);
-        }
-      }
+      this.displayBlocksByRow(row)
+    }
+  }
+
+  this.displayBlocksByRows = function(start, end){
+    for (var row = start; row < end; row++) {
+      this.displayBlocksByRow(row)
     }
   }
 
   this.displayBlocksByRow = function(row) {
     for (var col = 0; col < this.tileMap[row].length; col += 1) {
-      if (this.tileMap[row][col] != 0){
+      if (this.tileMap[row][col] != 0 && this.bombMap[row][col] != 2){
         image(this.tileLibrary[ this.tileMap[row][col] ], col*this.tileSize, (row - 0.4)*this.tileSize, this.tileSize, this.tileSize*1.4);
       }
     }
@@ -92,12 +97,12 @@ function OverheadWorld(params) {
 // generateBombMap: generate a map
 // to track if the tiles are bombed
 // later in the game
-function generateBombMap (tileMap) {
+function generateZeros (tileMap) {
   var row = tileMap.length
   var col = tileMap[0].length    
-  var bombMap = Array(row)
+  var map = Array(row)
   for(var i = 0; i < row; i++){
-    bombMap[i] = Array(col).fill(0)
+    map[i] = Array(col).fill(0)
   }
-  return bombMap
+  return map
 }
