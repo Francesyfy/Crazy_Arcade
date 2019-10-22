@@ -24,7 +24,38 @@ function setup() {
 
 function draw() {
   theWorld.displayGround()
-  theWorld.displayBlocks()
+  //theWorld.displayBlocks()
+
+  var ors = theWorld.occupiedRows()
+  //console.log(ors)
+  // first and last row that is occupied
+  var fOR = ors[0]
+  var lOR = ors[ors.length-1]
+  // display the first parts
+  if (fOR != 0){
+    theWorld.displayBlocksByRows(0, fOR)
+  }
+  // display the middle parts
+  for (var i = 0; i < ors.length - 1; i++){
+    // display the objects first
+    objs = theWorld.rows[i].objects
+    for (var j = 0; j < objs.length; i++){
+      objs[j].display()
+    }
+    // display the rows between i and i+1
+    theWorld.displayBlocksByRows(ors[i],ors[i+1])
+  }
+  // display the objects on the last occupied row
+  var lastObjs = theWorld.rows[lOR].objects
+  for (var i = 0; i < lastObjs.length; i++){
+    lastObjs[i].display()
+  }
+  // display the last parts after the last occupied row
+  if (lOR != theWorld.length-1){
+    theWorld.displayBlocksByRows(lOR, theWorld.length)
+  }
+
+
 
   // player1: Boz
   // click mouse, the character dies or reborns

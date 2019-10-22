@@ -9,8 +9,16 @@ function OverheadWorld(params) {
   // store the bomb map to track if a tile is bombed
   this.bombMap = generateZeros(params.tileMap)
 
+  this.length = params.tileMap.length
   // use an array to store the rows of the characters & bubbles
-  this.rows = Array(this.tileMap.length).fill(0)
+  this.rows = Array(this.length)
+  for (var i = 0; i < this.rows.length; i++){
+    this.rows[i] = {
+      occupied: 0,
+      objects: {}
+    }
+  }
+  this.rows[2].occupied = 1
 
   // store the folder in which all of our tiles are stored
   this.tileFolder = params.tileFolder + "/" + params.map
@@ -92,6 +100,16 @@ function OverheadWorld(params) {
     // otherwise return false
     return false;
   }
+
+  this.occupiedRows = function() {
+    var or = []
+    for (var i = 0; i < this.rows.length; i++){
+      if (this.rows[i].occupied == 1){
+        or.push(i)
+      }
+    }
+    return or
+  }
 }
 
 // generateBombMap: generate a map
@@ -105,4 +123,12 @@ function generateZeros (tileMap) {
     map[i] = Array(col).fill(0)
   }
   return map
+}
+
+class rowTrack {
+  constructor(occupied, character){
+    this.occupied = occupied
+    this.character = character
+  }
+  
 }
