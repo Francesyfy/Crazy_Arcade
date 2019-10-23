@@ -1,7 +1,8 @@
-function Player1(x, y, world) {
+function Player(x, y, player, world) {
   // store the player position
   this.x = x
   this.y = y
+  this.player = player
 
   // store a reference to our "world" object - we will ask the world to tell us about
   // tiles that are in our path
@@ -25,29 +26,35 @@ function Player1(x, y, world) {
   // variable to keep track of our current cycle
   this.currentCycle = this.downCycle
 
-  // variable to keep track of frames when playing start/die gif
-  this.count = 0
+  // two players' keycodes
+  if (this.player == "Boz") {
+    this.keycodes = [[LEFT_ARROW], [RIGHT_ARROW], [DOWN_ARROW], [UP_ARROW]]
+  }
+  else if (this.player == "Lodumani") {
+    this.keycodes = [[97, 65], [100, 68], [115, 83], [119, 87]]
+  }
+
 
   // load in all of our walk cycle images
   for (var i = 0; i < 6; i++) {
     var filename = str(i) + ".png"
-    this.downCycle.push( loadImage("characters/Boz/down/" + filename) )
-    this.upCycle.push( loadImage("characters/Boz/up/" + filename) )
-    this.leftCycle.push( loadImage("characters/Boz/left/" + filename) )
-    this.rightCycle.push( loadImage("characters/Boz/right/" + filename) )
-  }  
+    this.downCycle.push( loadImage("characters/" + this.player + "/down/" + filename) )
+    this.upCycle.push( loadImage("characters/" + this.player + "/up/" + filename) )
+    this.leftCycle.push( loadImage("characters/" + this.player + "/left/" + filename) )
+    this.rightCycle.push( loadImage("characters/" + this.player + "/right/" + filename) )
+  }
 
   // set up and load start and die gif images
   this.startGif = []
   for (var i = 0; i < 10; i++) {
     var filename = str(i) + ".png"
-    this.startGif.push( loadImage("characters/Boz/start/" + filename) )
+    this.startGif.push( loadImage("characters/" + this.player + "/start/" + filename) )
   }
 
   this.dieGif = []
   for (var i = 0; i < 11; i++) {
     var filename = str(i) + ".png"
-    this.dieGif.push( loadImage("characters/Boz/die/" + filename) )
+    this.dieGif.push( loadImage("characters/" + this.player + "/die/" + filename) )
   }
 
   // define our speed
@@ -85,71 +92,85 @@ function Player1(x, y, world) {
 
     // see if one of our movement keys is down -- if so, we should try and move
     // note that this character responds to the following key combinations:
-    // WASD
-    // wasd
-    if (keyIsDown(97) || keyIsDown(65)) {
-
-      // see which tile is to our left
-      var tile1 = world.getTile(this.left1[0], this.left1[1])
-      var tile2 = world.getTile(this.left2[0], this.left2[1])
-
-
-      // is this tile solid?
-      if (!world.isTileSolid(tile1) && !world.isTileSolid(tile2)) {
-        // move
-        this.x -= this.speed
+    // The four directional arrows
+    for (var i = 0; i < this.keycodes[0].length; i++) {
+      if (keyIsDown(this.keycodes[0][i])) {
+        // see which tile is to our left
+        var tile1 = world.getTile(this.left1[0], this.left1[1])
+        var tile2 = world.getTile(this.left2[0], this.left2[1])
+  
+  
+        // is this tile solid?
+        if (!world.isTileSolid(tile1) && !world.isTileSolid(tile2)) {
+          // move
+          this.x -= this.speed
+        }
+  
+        // change artwork
+        this.currentCycle = this.leftCycle
       }
-
-      // change artwork
-      this.currentCycle = this.leftCycle
     }
-    if (keyIsDown(100) || keyIsDown(68)) {
-      // see which tile is to our right
-      var tile1 = world.getTile(this.right1[0], this.right1[1])
-      var tile2 = world.getTile(this.right2[0], this.right2[1])
-
-      // is this tile solid?
-      if (!world.isTileSolid(tile1) && !world.isTileSolid(tile2)) {
-        // move
-        this.x += this.speed
+    
+    for (var i = 0; i < this.keycodes[1].length; i++) {
+      if (keyIsDown(this.keycodes[1][i])) {
+        // see which tile is to our right
+        var tile1 = world.getTile(this.right1[0], this.right1[1])
+        var tile2 = world.getTile(this.right2[0], this.right2[1])
+  
+        // is this tile solid?
+        if (!world.isTileSolid(tile1) && !world.isTileSolid(tile2)) {
+          // move
+          this.x += this.speed
+        }
+  
+        // change artwork
+        this.currentCycle = this.rightCycle
       }
-
-      // change artwork
-      this.currentCycle = this.rightCycle
     }
-    if (keyIsDown(115) || keyIsDown(83)) {
-      // see which tile is below us
-      var tile1 = world.getTile(this.bottom1[0], this.bottom1[1])
-      var tile2 = world.getTile(this.bottom2[0], this.bottom2[1])
 
-      // is this tile solid?
-      if (!world.isTileSolid(tile1) && !world.isTileSolid(tile2)) {
-        // move
-        this.y += this.speed
+    for (var i = 0; i < this.keycodes[2].length; i++) {
+      if (keyIsDown(this.keycodes[2][i])) {
+        // see which tile is below us
+        var tile1 = world.getTile(this.bottom1[0], this.bottom1[1])
+        var tile2 = world.getTile(this.bottom2[0], this.bottom2[1])
+
+        // is this tile solid?
+        if (!world.isTileSolid(tile1) && !world.isTileSolid(tile2)) {
+          // move
+          this.y += this.speed
+        }
+
+        // change artwork
+        this.currentCycle = this.downCycle
       }
-
-      // change artwork
-      this.currentCycle = this.downCycle
     }
-    if (keyIsDown(119) || keyIsDown(87)) {
-      // see which tile is above us
-      var tile1 = world.getTile(this.top1[0], this.top1[1])
-      var tile2 = world.getTile(this.top2[0], this.top2[1])
-
-      // is this tile solid?
-      if (!world.isTileSolid(tile1) && !world.isTileSolid(tile2)) {
-        // move
-        this.y -= this.speed
+    
+    for (var i = 0; i < this.keycodes[3].length; i++) {
+      if (keyIsDown(this.keycodes[3][i])) {
+        // see which tile is above us
+        var tile1 = world.getTile(this.top1[0], this.top1[1])
+        var tile2 = world.getTile(this.top2[0], this.top2[1])
+  
+        // is this tile solid?
+        if (!world.isTileSolid(tile1) && !world.isTileSolid(tile2)) {
+          // move
+          this.y -= this.speed
+        }
+  
+        // change artwork
+        this.currentCycle = this.upCycle
       }
-
-      // change artwork
-      this.currentCycle = this.upCycle
     }
+    
 
     // increase current image to go to the next cycle image if a key is down
     // only do this every few frames since we don't want this to run too fast!
-    if ((keyIsDown(97) || keyIsDown(65) || keyIsDown(100) || keyIsDown(68) || keyIsDown(115) || keyIsDown(83) || keyIsDown(119) || keyIsDown(87)) && frameCount % 10 == 0) {
-      this.currentImage += 1
+    for (var i = 0; i < this.keycodes.length; i++) {
+      for (var j = 0; j < this.keycodes[i].length; j++) {
+        if (keyIsDown(this.keycodes[i][j]) && frameCount % 10 == 0) {
+          this.currentImage += 1
+        }
+      }
     }
 
     // cycle around to the beginning of the walk cycle, if necessary
@@ -163,12 +184,10 @@ function Player1(x, y, world) {
     if (this.currentImageStart <= 9) {
       imageMode(CORNER)
       image(this.startGif[ this.currentImageStart ], this.x, this.y)
-      this.count += 1
 
-      if (this.count > 7) {
+      if (frameCount % 10 == 0) {
         // move onto next frame
         this.currentImageStart += 1
-        this.count = 0
       }
     } else {
 
@@ -182,12 +201,10 @@ function Player1(x, y, world) {
     if (this.currentImageDie <= 10) {
       imageMode(CORNER)
       image(this.dieGif[ this.currentImageDie ], this.x, this.y)
-      this.count += 1
 
-      if (this.count > 7) {
+      if (frameCount % 10 == 0) {
         // move onto next frame
         this.currentImageDie += 1
-        this.count = 0
       }
     } else {
 

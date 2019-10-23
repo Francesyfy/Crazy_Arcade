@@ -7,6 +7,9 @@ var mapTown
 var mapDesert
 var mapUnderwater
 
+// two players
+var players = []
+
 // handle the tile loading and creating our player object in preload before the game can start
 function preload() {
   mapTown = new Map('town')
@@ -14,8 +17,9 @@ function preload() {
   mapUnderwater = new Map('underwater')
   // test code
   theWorld = new OverheadWorld(mapTown)
-  thePlayer1 = new Player1(0, 0, theWorld)
-  thePlayer2 = new Player2(700, 580, theWorld)
+
+  players.push(new Player(0, 0, "Boz", theWorld))
+  players.push(new Player(700, 580, "Lodumani", theWorld))
 }
 
 function setup() {
@@ -26,47 +30,26 @@ function draw() {
   theWorld.displayGround()
   theWorld.displayBlocks()
 
-  // player1: Boz
-  // click mouse, the character dies or reborns
-  if (mouseIsPressed) {
-    if (thePlayer1.state == 1)
-    thePlayer1.state = 2
-    else if (thePlayer1.state == 3)
-    thePlayer1.state = 0
-  }
+  for (var i = 0; i < 2; i++) {
+    // click mouse, the character dies or reborns
+    if (mouseIsPressed) {
+      if (players[i].state == 1)
+      players[i].state = 2
+      else if (players[i].state == 3)
+      players[i].state = 0
+    }
 
-  // three states 0, 1, 2: start, walk, die
-  if (thePlayer1.state == 0) {
-    thePlayer1.startDisplay()
-  }
-  else if (thePlayer1.state == 1) {
-    thePlayer1.move()
-    thePlayer1.display()
-  } 
-  else if (thePlayer1.state == 2) {
-    thePlayer1.dieDisplay()
-  }
-
-
-  // player2: Lodumani
-  // click mouse, the character dies or reborns
-  if (mouseIsPressed) {
-    if (thePlayer2.state == 1)
-    thePlayer2.state = 2
-    else if (thePlayer2.state == 3)
-    thePlayer2.state = 0
-  }
-
-  // three states 0, 1, 2: start, walk, die
-  if (thePlayer2.state == 0) {
-    thePlayer2.startDisplay()
-  }
-  else if (thePlayer2.state == 1) {
-    thePlayer2.move()
-    thePlayer2.display()
-  } 
-  else if (thePlayer2.state == 2) {
-    thePlayer2.dieDisplay()
+    // three states 0, 1, 2: start, walk, die
+    if (players[i].state == 0) {
+      players[i].startDisplay()
+    }
+    else if (players[i].state == 1) {
+      players[i].move()
+      players[i].display()
+    } 
+    else if (players[i].state == 2) {
+      players[i].dieDisplay()
+    }
   }
 }
 
