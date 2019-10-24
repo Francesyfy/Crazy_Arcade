@@ -10,16 +10,36 @@ var mapUnderwater
 // two players
 var players = []
 
+// bubble
+var bubbles = []
+var bubbleGraphics = []
+var expBubbleGraphics = []
+
 // handle the tile loading and creating our player object in preload before the game can start
 function preload() {
   mapTown = new Map('town')
   mapDesert = new Map('desert')
   mapUnderwater = new Map('underwater')
-  // test code
+
   theWorld = new OverheadWorld(mapTown)
 
+  // players
+  // Boz: awsd - move; g - bubble
+  // Lodumani: arrows - move; m - bubble
   players.push(new Player(0, 0, "Boz", theWorld))
   players.push(new Player(700, 580, "Lodumani", theWorld))
+
+
+  // bubble
+  for (let i = 1; i <= 3; i++) {
+    let filename = "bubble" + nf(i, 2) + ".png";
+    bubbleGraphics.push(loadImage("bubble/bounce/" + filename));
+  }
+
+  for (let i = 1; i <= 4; i++) {
+      let filename = str(i) + ".png";
+      expBubbleGraphics.push(loadImage("bubble/explode/center/" + filename));
+  }
 }
 
 function setup() {
@@ -28,7 +48,7 @@ function setup() {
 
 function draw() {
   theWorld.displayGround()
-  theWorld.displayBlocks()
+  //theWorld.displayBlocks()
 
   for (var i = 0; i < 2; i++) {
     // click mouse, the character dies or reborns
@@ -37,19 +57,91 @@ function draw() {
       players[i].state = 2
       else if (players[i].state == 3)
       players[i].state = 0
-    }
+    }    
 
-    // three states 0, 1, 2: start, walk, die
-    if (players[i].state == 0) {
-      players[i].startDisplay()
+    //update occupied rows
+    var r = players[i].row()
+    theWorld.rows[r].occupied = 1
+    theWorld.rows[r].players.push(players[i])
+  }
+
+
+  var ors = theWorld.occupiedRows()
+  // console.log(ors)
+  // console.log(theWorld.rows)
+
+  // first and last row that is occupied
+  var fOR = ors[0]
+  var lOR = ors[ors.length-1]
+
+  // display the first parts
+  if (fOR != 0){
+    theWorld.displayBlocksByRows(0, fOR)
+  }
+
+  // display the middle parts
+  for (var i = 0; i < ors.length - 1; i++){
+    // display the objects first
+    var p = theWorld.rows[ors[i]].players
+    for (var j = 0; j < p.length; j++){
+      if (p[j].state == 0) {
+        p[j].startDisplay()
+      }
+      else if (p[j].state == 1) {
+        p[j].move()
+        p[j].display()
+  
+      } 
+      else if (p[j].state == 2) {
+        p[j].dieDisplay()
+      }
     }
-    else if (players[i].state == 1) {
-      players[i].move()
-      players[i].display()
+    // display the rows between i and i+1
+    theWorld.displayBlocksByRows(ors[i],ors[i+1])
+  }
+
+  // display the objects on the last occupied row
+  var lastP = theWorld.rows[lOR].players
+  for (var i = 0; i < lastP.length; i++){
+    if (lastP[i].state == 0) {
+      lastP[i].startDisplay()
+    }
+    else if (lastP[i].state == 1) {
+      lastP[i].move()
+      lastP[i].display()
+
     } 
-    else if (players[i].state == 2) {
-      players[i].dieDisplay()
+    else if (lastP[i].state == 2) {
+      lastP[i].dieDisplay()
     }
+  }
+
+  // display the last parts after the last occupied row
+  if (lOR != theWorld.length-1){
+    theWorld.displayBlocksByRows(lOR, theWorld.length)
+  }
+  
+
+  for (var i = 0; i < theWorld.rows.length; i++){
+    theWorld.rows[i] = {
+      occupied: 0,
+      players: [],
+      bubbles: []
+    }
+  }
+
+
+  for (var i = 0; i < bubbles.length; i++) {
+    bubbles[i].display()
+  }
+}
+
+function keyPressed() {
+  if (key == 'g' || key == "G") {
+    bubbles.push(new Bubble(players[0].x+5, players[0].y+20))
+  }
+  if (key == 'm' || key == "M") {
+    bubbles.push(new Bubble(players[1].x+5, players[1].y+20))
   }
 }
 

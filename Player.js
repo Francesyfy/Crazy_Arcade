@@ -2,6 +2,8 @@ function Player(x, y, player, world) {
   // store the player position
   this.x = x
   this.y = y
+
+  // Boz or Lodumani
   this.player = player
 
   // store a reference to our "world" object - we will ask the world to tell us about
@@ -28,10 +30,10 @@ function Player(x, y, player, world) {
 
   // two players' keycodes
   if (this.player == "Boz") {
-    this.keycodes = [[LEFT_ARROW], [RIGHT_ARROW], [DOWN_ARROW], [UP_ARROW]]
+    this.keycodes = [[97, 65], [100, 68], [115, 83], [119, 87]]
   }
   else if (this.player == "Lodumani") {
-    this.keycodes = [[97, 65], [100, 68], [115, 83], [119, 87]]
+    this.keycodes = [[LEFT_ARROW], [RIGHT_ARROW], [DOWN_ARROW], [UP_ARROW]]
   }
 
 
@@ -212,5 +214,9 @@ function Player(x, y, player, world) {
       this.state = 3
       this.currentImageDie = 0
     }
+  }
+
+  this.row = function() {
+    return floor((this.y+65)/50)
   }
 }
