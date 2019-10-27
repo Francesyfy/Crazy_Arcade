@@ -1,7 +1,11 @@
 function Player(x, y, player, world) {
+
   // store the player position
   this.x = x
   this.y = y
+
+  // initial lives of 3
+  this.lives = 3
 
   // Boz or Lodumani
   this.player = player
@@ -33,7 +37,7 @@ function Player(x, y, player, world) {
     this.keycodes = [[97, 65], [100, 68], [115, 83], [119, 87]]
   }
   else if (this.player == "Lodumani") {
-    this.keycodes = [[LEFT_ARROW], [RIGHT_ARROW], [DOWN_ARROW], [UP_ARROW]]
+    this.keycodes = [[106, 74], [108, 76], [107, 75], [105, 73]]
   }
 
 
@@ -102,12 +106,17 @@ function Player(x, y, player, world) {
         var tile2 = world.getTile(this.left2[0], this.left2[1])
   
   
-        // is this tile solid?
+        // is this tile solid? 
         if (!world.isTileSolid(tile1) && !world.isTileSolid(tile2)) {
-          // move
-          this.x -= this.speed
+          
+          //is there any bubbles to our left?
+          if (this.col() == 0 || world.bubbleMap[this.row()][this.col()-1] == 0){
+            // move
+            this.x -= this.speed
+          }
+          
         }
-  
+
         // change artwork
         this.currentCycle = this.leftCycle
       }
@@ -119,10 +128,15 @@ function Player(x, y, player, world) {
         var tile1 = world.getTile(this.right1[0], this.right1[1])
         var tile2 = world.getTile(this.right2[0], this.right2[1])
   
-        // is this tile solid?
-        if (!world.isTileSolid(tile1) && !world.isTileSolid(tile2)) {
-          // move
-          this.x += this.speed
+        // is this tile solid? 
+        if (!world.isTileSolid(tile1) && !world.isTileSolid(tile2) ) {
+          
+          // is there any bubbles to our right?
+          if ( this.col() == world.width - 1 || world.bubbleMap[this.row()][this.col()+1] == 0){
+            // move
+            this.x += this.speed
+          }
+          
         }
   
         // change artwork
@@ -136,10 +150,14 @@ function Player(x, y, player, world) {
         var tile1 = world.getTile(this.bottom1[0], this.bottom1[1])
         var tile2 = world.getTile(this.bottom2[0], this.bottom2[1])
 
-        // is this tile solid?
-        if (!world.isTileSolid(tile1) && !world.isTileSolid(tile2)) {
-          // move
-          this.y += this.speed
+        // is this tile solid? is there any bubbles below us?
+        if (!world.isTileSolid(tile1) && !world.isTileSolid(tile2) ) {
+          // is there any bubbles below us?
+          if ( this.row() == world.length - 1 || world.bubbleMap[this.row()+1][this.col()] == 0){
+            // move
+            this.y += this.speed
+          }
+          
         }
 
         // change artwork
@@ -153,10 +171,14 @@ function Player(x, y, player, world) {
         var tile1 = world.getTile(this.top1[0], this.top1[1])
         var tile2 = world.getTile(this.top2[0], this.top2[1])
   
-        // is this tile solid?
-        if (!world.isTileSolid(tile1) && !world.isTileSolid(tile2)) {
-          // move
-          this.y -= this.speed
+        // is this tile solid? 
+        if (!world.isTileSolid(tile1) && !world.isTileSolid(tile2) ) {
+          //is there any bubbles above us?
+          if( this.row() == 0 || world.bubbleMap[this.row()-1][this.col()] == 0){
+            // move
+            this.y -= this.speed
+          }
+
         }
   
         // change artwork
@@ -217,6 +239,14 @@ function Player(x, y, player, world) {
   }
 
   this.row = function() {
-    return floor((this.y+65)/50)
+    var row = floor((this.y+55)/50)
+    row = constrain(row, 0, 12)
+    return row
+  }
+
+  this.col = function() {
+    var col = floor((this.x+25)/50)
+    col = constrain(col, 0, 14)
+    return col
   }
 }

@@ -6,10 +6,14 @@ function OverheadWorld(params) {
   // store our tile map
   this.tileMap = params.tileMap
 
+  this.lifeMap = params.lifeMap
+
   // store the bomb map to track if a tile is bombed
-  this.bombMap = generateZeros(params.tileMap)
+  this.bubbleMap = generateZeros(params.tileMap)
 
   this.length = params.tileMap.length
+  this.width = params.tileMap[0].length
+
   // use an array to store the rows of the characters & bubbles
   this.rows = Array(this.length)
   for (var i = 0; i < this.rows.length; i++){
@@ -71,7 +75,7 @@ function OverheadWorld(params) {
 
   this.displayBlocksByRow = function(row) {
     for (var col = 0; col < this.tileMap[row].length; col += 1) {
-      if (this.tileMap[row][col] != 0 && this.bombMap[row][col] != 2){
+      if (this.tileMap[row][col] != 0){
         image(this.tileLibrary[ this.tileMap[row][col] ], col*this.tileSize, (row - 0.4)*this.tileSize, this.tileSize, this.tileSize*1.4);
       }
     }
@@ -110,6 +114,16 @@ function OverheadWorld(params) {
       }
     }
     return or
+  }
+
+  this.refreshTileMap = function() {
+    for (var i = 0; i < this.tileMap.length; i++) {
+      for (var j = 0; j < this.tileMap[0].length; j++){
+        if (this.lifeMap[i][j] <= 0 && this.tileMap[i][j] != 2){
+          this.tileMap[i][j] = 0
+        }
+      }
+    }
   }
 }
 
