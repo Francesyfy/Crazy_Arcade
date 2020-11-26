@@ -1,38 +1,8 @@
-// let bubbles = [];
-// let bubbleGraphics = [];
-// let expBubbleGraphics = [];
-
-// function preload() {
-//     for (let i = 1; i <= 3; i++) {
-//         let filename = "bubble" + nf(i, 2) + ".png";
-//         bubbleGraphics.push(loadImage("bubble/bounce/" + filename));
-//     }
-
-//     for (let i = 1; i <= 4; i++) {
-//         let filename = str(i) + ".png";
-//         expBubbleGraphics.push(loadImage("bubble/explode/center" + filename));
-//     }
-// }
-
-// function setup() {
-//     createCanvas(500, 500);
-//     imageMode(CENTER);
-// }
-
-// function draw() {
-//     background(255);
-
-//     for (let i = 0; i < bubbles.length; i++) {
-//         bubbles[i].display();
-//     }
-// }
-
-// function keyPressed() {
-//     if (key == ' ') {
-//         bubbles.push(new Bubble(mouseX, mouseY));
-//     }
-// }
-
+/* 
+  class Bubble
+  constructed with the position of itself and related world and players
+  can bounce, explode, and disappear within function display()
+*/
 class Bubble {
     constructor(r, c, world, players) {
         this.row = r
@@ -49,6 +19,8 @@ class Bubble {
         this.currentFrame_Bubble = 0;
         this.currentFrame_expBubble_center = 0;
         this.currentFrame_expBubble_surrounding = 0;
+
+        // this.exploded = false;
     }
 
     display() {
@@ -73,6 +45,8 @@ class Bubble {
         // explode
         else if (this.state == 1) {
 
+            // this.exploded = true;
+
             // check if the players are within its explode range
             var x = this.x
             var y = this.y
@@ -80,11 +54,10 @@ class Bubble {
                 var x_p = this.players[i].x + 25
                 var y_p = this.players[i].y + 30
 
-                if ((x_p>x && x_p<x+50 && y_p>y-50 && y_p<y+100) || 
-                (x_p>x-50 && x_p<x+100 && y_p>y && y_p<y+50)) {
+                if ((x_p > x && x_p < x + 50 && y_p > y - 50 && y_p < y + 100) ||
+                    (x_p > x - 50 && x_p < x + 100 && y_p > y && y_p < y + 50)) {
                     this.players[i].lives -= 1
                 }
-                console.log(this.players[i].lives)
 
             }
 
@@ -94,20 +67,20 @@ class Bubble {
             var c = this.col
             var lifeMap = this.world.lifeMap
             lifeMap[r][c] -= 1
-            if(r > 0){
-                lifeMap[r-1][c] -= 1
+            if (r > 0) {
+                lifeMap[r - 1][c] -= 1
             }
-            if (r < lifeMap.length - 1){
-                lifeMap[r+1][c] -= 1
+            if (r < lifeMap.length - 1) {
+                lifeMap[r + 1][c] -= 1
             }
-            if (c > 0){
-                lifeMap[r][c-1] -= 1
+            if (c > 0) {
+                lifeMap[r][c - 1] -= 1
             }
-            if (c < lifeMap[0].length - 1){
-                lifeMap[r][c+1] -= 1
+            if (c < lifeMap[0].length - 1) {
+                lifeMap[r][c + 1] -= 1
             }
 
-
+            // explosion effects
             image(expBubbleGraphics[this.currentFrame_expBubble_center], this.x, this.y, 50, 50);
             if (frameCount % 10 == 0) {
                 this.currentFrame_expBubble_center++;

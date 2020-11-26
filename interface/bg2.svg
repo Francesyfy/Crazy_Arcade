@@ -1,0 +1,26 @@
+<?xml version="1.0"?><svg width="640" height="480" xmlns="http://www.w3.org/2000/svg">
+ <title>Bubbles</title>
+ <g>
+  <title>Layer 1</title>
+  <ellipse fill="#aad4ff" stroke="#ffffff" stroke-width="5" opacity="0.82" cx="225" cy="138.499998" id="svg_11" rx="36" ry="35.5"/>
+  <text fill="#000000" stroke="#000000" stroke-width="0" fill-opacity="0.39" opacity="0.82" x="162" y="207" id="svg_13" font-size="24" font-family="Arial" text-anchor="middle" xml:space="preserve"/>
+  <text fill="#000000" stroke="#000000" stroke-width="0" fill-opacity="0.39" opacity="0.82" x="155" y="136" id="svg_14" font-size="24" font-family="Arial" text-anchor="middle" xml:space="preserve"/>
+  <line fill="none" stroke="#ffffff" stroke-width="5" opacity="0.82" x1="231" y1="117" x2="242" y2="125" id="svg_17"/>
+  <ellipse fill="#aad4ff" stroke="#ffffff" stroke-width="5" opacity="0.82" cx="386.999995" cy="265.000001" id="svg_18" rx="79.000005" ry="74.999999"/>
+  <ellipse fill="#aad4ff" stroke="#ffffff" stroke-width="5" opacity="0.82" cx="117.000002" cy="315" id="svg_19" rx="30.999999" ry="27"/>
+  <ellipse fill="#aad4ff" stroke="#ffffff" stroke-width="5" opacity="0.82" cx="404" cy="85" id="svg_20" rx="29" ry="28"/>
+  <line fill="none" stroke="#ffffff" stroke-width="5" opacity="0.82" x1="119" y1="301" x2="127" y2="308" id="svg_21"/>
+  <line fill="none" stroke="#ffffff" stroke-width="5" opacity="0.82" x1="409" y1="68" x2="420" y2="74" id="svg_24"/>
+  <ellipse fill="#aad4ff" stroke="#ffffff" stroke-width="5" opacity="0.82" cx="166" cy="94" id="svg_28" rx="30" ry="30"/>
+  <ellipse fill="#aad4ff" stroke="#ffffff" stroke-width="5" opacity="0.82" cx="226" cy="357.500002" id="svg_29" rx="49" ry="49.500003"/>
+  <ellipse fill="#aad4ff" stroke="#ffffff" stroke-width="5" opacity="0.82" cx="278" cy="110" id="svg_30" rx="14" ry="15"/>
+  <ellipse fill="#aad4ff" stroke="#ffffff" stroke-width="5" opacity="0.82" cx="145" cy="140" id="svg_31" rx="16" ry="14"/>
+  <ellipse fill="#aad4ff" stroke="#ffffff" stroke-width="5" opacity="0.82" cx="478" cy="129" id="svg_32" rx="24" ry="23"/>
+  <line fill="none" stroke="#ffffff" stroke-width="5" opacity="0.82" x1="171" y1="75" x2="181" y2="82" id="svg_33"/>
+  <line fill="none" stroke="#ffffff" stroke-width="5" opacity="0.82" x1="277" y1="101" x2="286" y2="108" id="svg_34"/>
+  <line fill="none" stroke="#ffffff" stroke-width="5" opacity="0.82" x1="481" y1="121" x2="490" y2="128" id="svg_35"/>
+  <line fill="none" stroke="#ffffff" stroke-width="5" opacity="0.82" x1="148" y1="133" x2="152" y2="138" id="svg_36"/>
+  <line fill="none" stroke="#ffffff" stroke-width="5" opacity="0.82" x1="231" y1="326" x2="243" y2="333" id="svg_37"/>
+  <line transform="rotate(66.5014 410 232)" fill="none" stroke="#ffffff" stroke-width="5" opacity="0.82" x1="418" y1="227" x2="402" y2="237" id="svg_38"/>
+ </g>
+</svg>

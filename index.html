@@ -1,21 +1,106 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Demo Page</title>
-    <script src="../p5/p5.min.js" type="text/javascript"></script>
-    <script src="../p5/addons/p5.dom.min.js" type="text/javascript"></script>
-    <script src="../p5/addons/p5.sound.min.js" type="text/javascript"></script>
+
+<head>
+    <title>Crazy Arcade</title>
+    <script src="p5/p5.min.js" type="text/javascript"></script>
+    <script src="p5/addons/p5.dom.min.js" type="text/javascript"></script>
+    <script src="p5/addons/p5.sound.min.js" type="text/javascript"></script>
 
     <script src="sketch.js" type="text/javascript"></script>
     <script src="Player.js" type="text/javascript"></script>
     <script src="OverheadWorld.js" type="text/javascript"></script>
     <script src="bubble.js" type="text/javascript"></script>
+    <script src="PlayerAnimation.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Londrina+Solid&display=swap" rel="stylesheet">
+
 
 
     <!-- custom CSS -->
     <style>
+        @font-face {
+            font-family: "myFont";
+            src: url("font/zorque.ttf");
+        }
+        
+        #p5_loading {
+            width: 750px;
+            height: 650px;
+            /* border: 5px solid black; */
+            font-size: 200%;
+            font-family: 'myFont';
+            text-align: center;
+            margin: auto;
+            /* mark this div as relatively positioned - this won't move it, but
+           it will cause the div to 'remember' its position on the page -
+           this is important since any child divs will need this information
+           in order to position themselves correctly */
+            position: relative;
+        }
+        
+        #progress_bar {
+            background-color: rgb(0, 189, 230);
+            height: 25px;
+            width: 0%;
+            position: absolute;
+            top: 325px;
+            left: 0px;
+        }
     </style>
-  </head>
-  <body>
-  </body>
+</head>
+
+<body>
+    <div id="wrapper">
+
+        <br>
+        <img src="interface/logo.png" alt="" style="margin: auto; width: 40%; height: 40%;">
+        <br>
+
+        <div>
+            <a class="button" href="https://docs.google.com/document/d/1OkSaichaLqrlpLSwpHa7fYwUrbbZQN6DQGqliadCxOk/edit?usp=sharing">Project Proposal</a>
+            <a class="button" href="https://docs.google.com/document/d/1csHENderidDU_yBfFKvTHBIcTUSBJLAsWyt1fgtVViw/edit?usp=sharing">Project Update #1</a>
+            <a class="button" href="https://docs.google.com/document/d/1d7mXN18TsnqAV8jJBrCIa4tGhf9cTirTdEQSFoyGZVI/edit?usp=sharing">Project Update #2</a>
+            <a class="button" href="https://docs.google.com/document/d/1XGwPZlGQzWGfzqnnncbhabACnphFDZi0qtoCNjTgE-I/edit?usp=sharing">Final Documentation</a>
+        </div>
+
+        <!-- <p> Instructions </p> -->
+        <div id="instructions">
+            <!-- <p>CONTROLS:&emsp;P1&ensp;WASD + R&ensp;&ensp;P2&ensp;IJKL + P</p> -->
+            <table>
+                <tbody>
+                    <tr>
+                        <td><img src="characters/Boz/start/8.png" alt=""></td>
+                        <td>WASD + R</td>
+                        <td><img src="characters/Lodumani/start/8.png" alt=""></td>
+                        <td>IJKL + P</td>
+                    </tr>
+                    <tr>
+                        <td><img src="tiles/desert/4.png" alt=""></td>
+                        <td>Increase life</td>
+                        <td><img src="tiles/desert/5.png" alt=""></td>
+                        <td>Speed up</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div id="p5_loading" class="loadingclass">
+            <div>
+                <br>
+                <br>
+                <h1> Loading...</h1>
+            </div>
+
+            <div id="progress_bar"></div>
+
+        </div>
+
+
+    </div>
+
+</body>
+
 </html>

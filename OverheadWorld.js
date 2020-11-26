@@ -6,15 +6,19 @@ function OverheadWorld(params) {
   // store our tile map
   this.tileMap = params.tileMap
 
+  // store the life map to record the hit points of each block
   this.lifeMap = params.lifeMap
 
-  // store the bomb map to track if a tile is bombed
+  // store the bubble map to track if a tile is occupied by a bubble
   this.bubbleMap = generateZeros(params.tileMap)
 
+  // # of rows & cols of the tile map
   this.length = params.tileMap.length
   this.width = params.tileMap[0].length
 
-  // use an array to store the rows of the characters & bubbles
+  // store the rows of the tile map
+  // each element stores the info whether it is occupied
+  // and the characters & bubbles that are on the row
   this.rows = Array(this.length)
   for (var i = 0; i < this.rows.length; i++){
     this.rows[i] = {
@@ -23,7 +27,6 @@ function OverheadWorld(params) {
       bubbles: []
     }
   }
-  // this.rows[2].occupied = 1
 
   // store the folder in which all of our tiles are stored
   this.tileFolder = params.tileFolder + "/" + params.map
@@ -58,7 +61,7 @@ function OverheadWorld(params) {
     }
   }
 
-  // displayWorld: displays the blocks above ground
+  // displayBlocks: displays the blocks above ground
   // loads all tiles except the ground
   // the height of the tile is 1.4 times its width 
   this.displayBlocks = function() {
@@ -67,12 +70,14 @@ function OverheadWorld(params) {
     }
   }
 
+  // displayBlocksByRows: displays the blocks with indices [start, end)
   this.displayBlocksByRows = function(start, end){
     for (var row = start; row < end; row++) {
       this.displayBlocksByRow(row)
     }
   }
 
+  // displayBlocksByRow: displays the blocks on a single row
   this.displayBlocksByRow = function(row) {
     for (var col = 0; col < this.tileMap[row].length; col += 1) {
       if (this.tileMap[row][col] != 0){
@@ -106,6 +111,7 @@ function OverheadWorld(params) {
     return false;
   }
 
+  // occupiedRows: record all the rows that are occupied
   this.occupiedRows = function() {
     var or = []
     for (var i = 0; i < this.rows.length; i++){
@@ -116,11 +122,30 @@ function OverheadWorld(params) {
     return or
   }
 
+  // refreshTileMap: check to see if any block is blown up
+  // if so, change the corresponding position on the tileMap to 0
+  // so that it won't display
   this.refreshTileMap = function() {
     for (var i = 0; i < this.tileMap.length; i++) {
       for (var j = 0; j < this.tileMap[0].length; j++){
-        if (this.lifeMap[i][j] <= 0 && this.tileMap[i][j] != 2){
-          this.tileMap[i][j] = 0
+        // the bricks cannot be blown up
+        if (this.lifeMap[i][j] <= 0){
+          // the gift boxes have a chance to give props
+          if (this.tileMap[i][j] == 2){
+            var r = random(0,1)
+            if (r < 0.1){
+              this.tileMap[i][j] = 4
+            }
+            else if (r < 0.2){
+              this.tileMap[i][j] = 5
+            }
+            else{
+              this.tileMap[i][j] = 0
+            }
+          }
+          else if (this.tileMap[i][j] == 1){
+            this.tileMap[i][j] = 0
+          } 
         }
       }
     }
@@ -138,12 +163,4 @@ function generateZeros (tileMap) {
     map[i] = Array(col).fill(0)
   }
   return map
-}
-
-class rowTrack {
-  constructor(occupied, character){
-    this.occupied = occupied
-    this.character = character
-  }
-  
 }
